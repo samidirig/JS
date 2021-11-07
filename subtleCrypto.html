@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Subtle Crypto </title>
+
+<style>
+  body { max-width: 500px; }
+  div { margin: 12px 0; }
+  img {
+    max-width: 100%;
+    border: 1px solid darkgray;
+  }
+  #remote {
+    width: 290px;
+    font: 13px arial, sans-serif;
+    margin: 14px 0;
+    border: 1px solid darkgray;
+    padding: 5px;
+  }
+  #sample, #out { overflow-x: auto; }
+  #disp1 { color: blue; }
+</style>
+</head>
+
+<body>
+<h2 id=title></h2>
+
+<div>
+  URL: 
+  <input type=text id=remote onchange='shaFromURL(this.value)'> <br>
+  <input type=file multiple onChange='fileSelect(this)'>
+</div>
+<div id=msg>Select text or image </div>
+<hr>
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr>
+<p>Ref: <a href="Reading_files">Reading files</a>
+ </p>
+ <pre id=text>//encode string M, then digest it using SHA-1
+  subtle.digest('SHA-1', new TextEncoder().encode(M))
+  .then(x=>[...new Uint8Array(x)].map(toHex).join(''))</pre>
+<script>
+"use strict";
+
+function shaFromBuffer(buf) { //ArrayBuffer or ArrayBufferView
+    crypto.subtle.digest(SubtleCrypto.algorithm, buf)
+      .then(b => console.log(SubtleCrypto.bufferToHex(b)))
+      .catch(console.error)
+  } 
+function shaFromFile(f) { //File or Blob
+    f.arrayBuffer()
+      .then(SubtleCrypto.shaFromBuffer)
+  }
+function shaFromURL(u) { //URL or string
+  fetch(u).then(r => r.arrayBuffer())
+      .then(SubtleCrypto.shaFromBuffer)
+      .catch(console.error)
+  }
+function bufferToHex(buf) {
+    return [...new Uint8Array(buf)].map(toHex).join('')
+  }
+
+let reader = new FileReader();
+function fileSelect(t) { //from Async.js
+  /*let a = t.files;
+  if (a.length == 0) return;
+  console.log(a.length==1? a[0] : a)
+  if(t.type.startsWith("text")){
+    RDR.readAsText(t);
+    RDR.onload = () => console.log(t, RDR)
+  }*/
+  if(t.files && t.files[0]){
+    reader.onload = function(e){
+      console.log(e.target.result)
+    }
+    reader.readAsText(t.files[0]);
+  }
+}
+let a, b, c, d;  //global variables
+
+let L = console.log
+let  M = "küçük şeyler güzeldir",
+    toHex = b=>b.toString(16).padStart(2,'0'),
+    subtle = crypto.subtle,
+    TEXT = 'const M = "'+M+'",\ntoHex = '+toHex
+
+title.innerText = document.title
+text.innerText = TEXT +';\n'+ text.innerText
+sample.innerText = shaFromBuffer+'\n'+shaFromFile+ '\n' +shaFromURL
+
+</script>
+
+</body>
+</html>
