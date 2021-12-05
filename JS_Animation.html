@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Animation</title>
+
+  <style>
+    body { max-width: 440px; }
+    #sample { overflow-x: auto; }
+    button {
+      user-select: none;
+      cursor: pointer;
+      color: gold;
+      border: 1.5px solid black;
+      border-radius: 10px;
+      font-family:monospace;
+      background-color: darkslategrey;
+    }
+    #box {
+      user-select: none;
+      font-size: 80px;
+      background: Aquamarine;
+      width: 400px;
+      height: 340px;
+      position: relative;
+    }
+    #box2 {
+      user-select: none;
+      width: 110px;
+      height: 40px;
+      position: absolute;
+      background-color: red;
+      font-size: 15px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }#box3 {
+      user-select: none;
+      width: 110px;
+      height: 40px;
+      position: relative;
+      background-color: black;
+      font-size: 15px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      top: 300px;
+    }
+    #s, #a1, #m, #i{
+      user-select: none;
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      background: rgba(0, 0, 0, 0);
+      color: goldenrod;
+    }
+    #out {
+      font-family: cursive;
+      height: 35px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+
+<div id=box >
+  <span id=s>s</span>
+  <span id=m>m</span>
+  <span id=i>i</span>
+  <span id=a1>a</span>
+  <div id = box2 >
+    <p>Hi!</p>
+  </div>
+  <div id = box3 >
+    <p>Welcome :)</p>
+  </div>
+</div>
+<h3 id=title2> </h3>
+<p id=but><button onClick="box .animate(t2, 5000), box .animate(t3, 5000),box2 .animate(tbox2, 5000), box3 .animate(tbox3, 5000),
+   s .animate(ts, 5000), a1 .animate(ta1, 5000), m .animate(tm, 5000), i .animate(ti, 5000)">Do Everything</button>
+<button onClick="box .animate(t2, 5000)">Rotate Box</button>
+<button onClick="box .animate(t3, 5000)">Background Box</button>
+<button onClick="box2 .animate(tbox2, 5000), box3 .animate(tbox3, 5000), s .animate(ts, 5000), a1 .animate(ta1, 5000), m .animate(tm, 5000), i .animate(ti, 5000)">Change Assets</button>
+</p>
+
+<p id=out>Animations in JS are simple and powerful</p>
+
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+
+<hr />
+<p>Ref: <a href="https://www.w3schools.com/jsref/prop_style_transform.asp" 
+   target="NewTab">Web Animations in WebKit</a>
+</p>
+
+<script>
+"use strict";
+title.innerText = document.title;
+title2.innerText = "\n\n";
+let
+  r0 = "rotate(0)", x0 = "translateX(0)", y0 ="translateY(0)",
+  t1 = { transform: [x0, "translateX(290px)", x0] },
+  t2 = { transform: [r0, "rotate(90deg)", r0, "rotate(-90deg)", r0] },
+  t3 = { background: ["yellow", "orange", "DarkBlue", "DarkSlateGray", "orange", "yellow"] },
+  ts = { transform: [r0, "traslateX(-80px)", "translate(0px,80px)","rotate(360deg)", r0]},
+  ta1 = { transform: [r0, "traslateX(80px)", "translate(80px,80px)","rotate(360deg)", r0]},
+  tm = { transform: [r0, "traslateX(160px)", "translate(160px,80px)","rotate(360deg)", r0]},
+  ti = { transform: [r0, "traslateX(290px)", "translate(290px,80px)","rotate(360deg)", r0]},
+  tbox2 = {transform: [x0, "translateX(290px)", x0],
+           background: ["red","black", "white", "red"]},
+  tbox3 = {width: ["110px", "200px", "400px", "200px", "110px"],
+          background: ["black","white", "red", "black"] },
+  a = [t1, t2, t3, ts, ta1, tm, ti, tbox2, tbox3];
+sample.innerText = 
+  't2 = '+JSON.stringify(t2)
+  +'\nt3 = '+JSON.stringify(t3)
+  +'\nt3 = '+JSON.stringify(ts)
+  +'\nt3 = '+JSON.stringify(ta1)
+  +'\nt3 = '+JSON.stringify(tm)
+  +'\nt3 = '+JSON.stringify(ti)
+  +'\nt3 = '+JSON.stringify(tbox2)
+  +'\nt3 = '+JSON.stringify(tbox3)
+  
+</script>
+
+</body>
+</html>

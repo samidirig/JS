@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <title>Multiplication Table </title>
+
+  <style>
+    body { max-width: 330px; }
+    #sample { overflow-x: auto; }
+    table { border-collapse: collapse; }
+    th { color: rgb(172, 34, 0); padding: 5px 5px; }
+    td { 
+        border: 1px solid rgb(115, 128, 0); 
+        padding: 5px 5px; 
+        text-align: center; 
+        position: relative;
+    }
+    td:hover .tip {
+        visibility: visible;
+    }
+    td .tip {
+        visibility: hidden;
+        font-size: small;
+        background-color: yellow;
+        color: black;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+        left: 5px; 
+        top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<center>
+<h2 id=title></h2>
+
+</select></p>
+
+<table id="tablo"></table>
+
+<p id=out style="font-size:small"></p>
+
+<form oninput="table()">
+  X: 
+  <input type=number id=tableX min="0" max="10" style="width:55px" value=0>
+  Y: 
+  <input type=number id=tableY min="0" max="10" style="width:55px" value=0>
+  <br><br>
+ 
+</form>
+
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr />
+<b>Original Table</b>
+
+<p>
+    <img src="multiplication.jpg">
+    Ref: <a href="https://www.mathsisfun.com/tables.html" 
+   target="NewTab">Multiplication Table </a>
+</p>
+<hr />
+<script>
+function doTable(m, n) {
+	const L = [1,2,3,4,5,6,7,8,9,10]
+	let p=[]; for (let y of L) p.push(y)
+    let row = "<th></th>";
+    for (let j = 1; j <= n; j++) 
+        row += "<th>"+"y="+j+"</th>";
+    let text = "<tr>"+row+"</tr>";
+
+    if(n < 11){
+        for (let i = 0; i < m; i++) {
+            row = "<th>"+"x="+(i+1)+"</th>";
+            for (let j = 0; j < n; j++) {
+                let s=(p[j] * (i+1));
+                row += "<td>"+s+"</td>";
+            }
+        text += "<tr>"+row+"</tr>";
+        }
+    tablo.innerHTML = text;
+    } 
+}
+function table() {
+    let m = tableX.value;
+    let n = tableY.value;
+    doTable(m, n);
+}
+
+    title.innerText = document.title;
+    sample.innerText ='\n'+ doTable
+</script>
+
+</body>
+</html> 

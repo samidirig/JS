@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://blm-fsmvu.github.io/305/images/icon192.png">
+    <title>Event Listeners </title>
+
+  <style> /* CSS comment */
+    body { max-width: 440px; }
+    #url { width: 190px; }
+    span, #url { color: blue; }
+  </style>
+</head>
+
+<body>   <!-- HTML comment: Modify all items marked xxx -->
+  <h2>Battery Status</h2>
+
+  <p title="Battery level">
+    Battery level: <span id=level>??</span>
+  </p>
+  <p>
+    Charge Status : <span id=charge></span>
+  </p>
+  <p>
+    Charge level changes : <span id=levelChange></span>
+  </p>
+
+  <h2>Online Status</h2>
+  <p>
+    <span id=online></span>
+  </p>
+
+  <h2>Keyboard</h2>
+  <p>
+    Key : <span id=keyboard></span>
+  </p>
+
+<b>Sample code</b>
+<pre id="sample">This text is not shown. Why?</pre>
+
+<hr />
+
+<script>
+
+  function init() {
+      navigator.getBattery().then(b =>
+        level.innerText = 100 * b.level + '%'
+      )
+      navigator.getBattery().then(b => b.onchargingchange = (e) => charge.innerText = b.charging)
+   
+      navigator.getBattery().then(b => b.onlevelchange = (e) => levelChange.innerText = (b.level * 100 +"%"))
+
+      online.innerText = "Online Durum: " + navigator.onLine;
+  
+      ononline = (e) => online.innerText = "Online Durum: " + navigator.onLine
+      onoffline = (e) => online.innerText = "Online Durum: " + navigator.onLine
+      
+      window.onkeydown = event => {
+        keyboard.innerText = event.key
+      }
+
+      window.onkeyup = event => {
+        keyboard.innerText = event.key
+      }
+  }
+
+    sample.innerText = init + '\n';
+    init();
+</script>
+
+</body>
+</html>

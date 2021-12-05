@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  
+  <title>GitHub Users</title>
+  <style>
+    body {
+        max-width: 400px;
+    }
+    img {
+        padding-right: 100px; 
+        width: 300px;
+        float: left;
+    }
+    pre { overflow-x: auto; }
+    #out { color: blue; }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+<input type=text id=usr value=samidirig onChange="readUser()">
+<div id=image ></div>
+<div id=username></div>
+<div id=git ></div>
+<div id=company ></div>
+<div id=mail ></div>
+<div id=follow ></div>
+<div id=repos ></div>
+<p id=out></p>
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr />
+<p>Ref: 
+  <a href="https://docs.github.com/en/rest/reference/rate-limit" target=NewTab>GitHub API</a> &emsp;
+  <a href="await.html" target=NewTab>await</a>
+</p>
+
+<script>
+"use strict";
+function error(e) {
+    out.innerText = e
+    out.style.color = 'red'
+    console.error(e)
+}
+function cause(s) {
+  switch (s) {
+    case 403:
+      return 'Rate limit exceeded'
+    case 404:
+      return usr.value+' not found'
+    default:
+      return 'Status '+s
+  }
+}
+async function toJSON(url) {
+  try {
+    let r = await fetch(url)
+    if (!r.ok) throw cause(r.status)
+    return r.json()
+  } catch (e) {
+    error(e)
+  }
+}
+async function readUser() {
+    const URL = "https://api.github.com/users/"
+    const BR = '<BR>'
+    let u = await toJSON(URL+usr.value)
+    if (!u || !u.login) return
+    out.style.color = 'green'
+
+    //start with avatar
+    image.innerHTML = `<img src="${u.avatar_url}">` +"\n"    
+
+    //add name and location
+    let s = (u.name || u.login)
+    if (u.location) s += ', '+u.location
+    username.innerHTML = s+BR; console.log(s)
+
+    //add link to GitHub 
+    let h = "github.com/"+u.login
+    git.innerHTML = "Git-Hub Adresses= " + 
+    `<a href="https://${h}" target=NewTab>${h}</a>`
+    
+    //add company
+    let c = "Company = " + u.company;
+	  if(c == null){
+      company.innerHTML = "Person doesn't have Company"
+    }else{
+      company.innerHTML = c;
+    }
+
+    //add mail
+    let m = "Mail = " + u.mail;
+	  if(m == null){
+      mail.innerHTML = "Person doesn't have E-mail"
+    }else{
+      mail.innerHTML = m;
+    }
+    //add follow
+    follow.innerHTML = "Followers= "+ u.followers
+
+    //add repo count and repo names
+    let n = u.public_repos;
+    repos.innerHTML ="Repos= " + n;
+
+}
+    title.innerText = document.title
+    sample.innerText = toJSON +'\n'+ readUser
+    readUser()
+</script>
+
+</body>
+</html>
